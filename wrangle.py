@@ -2,19 +2,10 @@ import os
 import pandas as pd
 import numpy as np
 
-
-
+ # Acquire data.
 # ----------------------ACQUIRE FUNCTION---------------------------------
 def get_z_data():
-    '''
-    Read student_grades into a pandas DataFrame from mySQL,
-    drop student_id column, replace whitespaces with NaN values,
-    drop any rows with Null values, convert all columns to int64,
-    return cleaned student grades DataFrame.
-    '''
-
-    # Acquire data
-
+    
     filename = 'sfr_2017.csv'
 
     if os.path.isfile(filename):
@@ -47,7 +38,7 @@ def get_z_data():
         return df 
 
 
-
+# Prep data.
 # ---------------------------CLEAN FUNCTION----------------------------
 def clean_z_data():
     
@@ -62,5 +53,16 @@ def clean_z_data():
 
     # Remove rows where bathroomcnt or bedroomcnt is 0.0
     df = df[(df.bathroomcnt != 0.0) & (df.bedroomcnt != 0.0)]
+
+    return df
+
+
+# wrapping Acquire and Prep functions into one.
+# ---------------------------- WRANGLE ZILLOW -------------------------------------
+def wrangle_zillow():
+
+    df = get_z_data()
+
+    df = clean_z_data()
 
     return df
