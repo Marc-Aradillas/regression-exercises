@@ -9,27 +9,24 @@ from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, Qu
 from sklearn.model_selection import train_test_split
 
 #custom import
-
 import wrangle
 
-# -----------------------------------PREPARE MODULE---------------------------------
 
-def compare_data(scaled_col, df=(train, val, test), original='tax_value'):
-    plt.figure(figsize=(11, 7))
+#-------------------------PREPARE MODULE------------------------------
 
-    plt.subplot(121)
-    sns.histplot(data=df, x=original, bins=40)
-    plt.title(f'Distribution')
-    
-    plt.subplot(122)
-    sns.histplot(data=df, x=scaled_col, bins=40)
-    plt.title(f'Distribution')
 
-    plt.tight_layout()
-    plt.show()
+# -----------------Train-Validate-Test-------------------------------
+# function to subset data
+def train_val_test(df, seed = 42):
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - 
+    train, val_test = train_test_split(df, train_size=0.7, random_state=seed)
+    val, test = train_test_split(val_test, train_size=0.5, random_state=seed)
 
+    return train, val, test
+
+
+
+# - - - - - - - - - - - Scale Data - - - - - - - - - - - - - - - -
 # Define a function for scaling the data
 def scale_data(train, val, test, scaler):
     
@@ -43,35 +40,22 @@ def scale_data(train, val, test, scaler):
     
     return train, val, test
 
-# Load and wrangle data
-df = wrangle.wrangle_zillow()
 
-# Split the data
-seed = 42
 
-train, val_test = train_test_split(df, train_size=0.7, random_state=seed)
-val, test = train_test_split(val_test, train_size=0.5, random_state=seed)
+# --------------------Visualization function----------------------
 
-# Filter data
-train = train[(train['tax_value'] < 3_000_000) & (train['tax_amount'] < 3_000_000)]
-val = val[(val['tax_value'] < 3_000_000) & (val['tax_amount'] < 3_000_000)]
-test = test[(test['tax_value'] < 3_000_000) & (test['tax_amount'] < 3_000_000)]
+def visualize_compare(scaled_col, df, original='tax_value'):
+    plt.figure(figsize=(11, 7))
 
-# different scalers
-mms = MinMaxScaler()
-ss = StandardScaler()
-rs = RobustScaler()
-qt = QuantileTransformer(output_distribution='normal', n_quantiles=10, random_state=seed)
+    plt.subplot(121)
+    sns.histplot(data=df, x=original, bins=40)
+    plt.title(f'Distribution original')
+    
+    plt.subplot(122)
+    sns.histplot(data=df, x=scaled_col, bins=40)
+    plt.title(f'Distribution scaled')
 
-# train, val, test = scale_data(train, val, test, mms)
-train, val, test = scale_data(train, val, test, ss)
-# train, val, test = scale_data(train, val, test, rs)
-# train, val, test = scale_data(train, val, test, qt)
-
-# Compare distributions for each scaled column
-compare_data('tax_value_scaled', train)
-compare_data('tax_value_scaled', val)
-compare_data('tax_value_scaled', test)
-
+    plt.tight_layout()
+    plt.show()
 
 
