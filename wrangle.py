@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
+from env import get_connection
 
  # Acquire data.
 # ----------------------ACQUIRE FUNCTION---------------------------------
@@ -55,11 +56,11 @@ def clean_zillow():
     # Remove rows where bathroomcnt or bedroomcnt is 0.0
     # df = df[(df.bedrooms != 0.0) & (df.bathrooms != 0.0)]
 
-    initial_df = {'county': ['LOS ANGELES', 'ORANGE', 'VENTURA'], 'fips' : [6037, 6059, 6111]}
+    # initial_df = {'county': ['LOS ANGELES', 'ORANGE', 'VENTURA'], 'fips' : [6037, 6059, 6111]}
     
-    df1=pd.DataFrame(initial_df)
+    # df1=pd.DataFrame(initial_df)
     
-    df=df1.merge(df)
+    # df=df1.merge(df)
     
     # df.set_index(df['fips'], inplace=True)
 
