@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
 from env import get_connection
 
  # Acquire data.
@@ -80,3 +81,15 @@ def wrangle_zillow():
     df.to_csv('zillow_data.csv',index=False)
 
     return df
+
+# ------------------------ SPLIT FUNCTION -------------------------
+
+def train_val_test(df, seed = 42):
+    
+    train, val_test = train_test_split(df, train_size = 0.7,
+                                       random_state = seed)
+    
+    val, test = train_test_split(val_test, train_size = 0.5,
+                                 random_state = seed)
+    
+    return train, val, test
