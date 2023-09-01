@@ -53,16 +53,16 @@ def plot_categorical_and_continuous_vars(df, continuous_var, categorical_var):
     fig, axes = plt.subplots(1, 3, figsize=(18, 6))
 
     # Box plot of the continuous variable for each category of the categorical variable
-    sns.boxplot(x=categorical_var, y=continuous_var, data=df, ax=axes[0])
+    sns.boxplot(x=categorical_var, y=continuous_var, data=df, ax=axes[0], bins=10)
     axes[0].set_title('Box plot of {} for each category of {}'.format(continuous_var, categorical_var))
 
     # Violin plot of the continuous variable for each category of the categorical variable
-    sns.violinplot(x=categorical_var, y=continuous_var, data=df, ax=axes[1])
-    axes[1].set_title('Violin plot of {} for each category of {}'.format(continuous_var, categorical_var))
+    sns.scatterplot(x=categorical_var, y=continuous_var, data=df, ax=axes[1], bins=10)
+    axes[1].set_title('Scatter plot of {} for each category of {}'.format(continuous_var, categorical_var))
 
     # Histogram of the continuous variable for each category of the categorical variable
     for cat in df[categorical_var].unique():
-        sns.histplot(df[df[categorical_var] == cat][continuous_var], ax=axes[2], label=cat, kde=True)
+        sns.histplot(df[df[categorical_var] == cat][continuous_var], ax=axes[2], label=cat, kde=True, bins=10)
     axes[2].set_title('Histogram of {} for each category of {}'.format(continuous_var, categorical_var))
     axes[2].legend(title=categorical_var)
 
@@ -73,3 +73,60 @@ Example:
 
 plot_categorical_and_continuous_vars(your_dataframe, "continuous_column", "categorical_column")
 '''
+
+
+
+
+
+
+
+
+# __________________________________________STATS test functions _________________________________________
+
+# move this
+
+
+def pearsonr(x, y, a=0.05):
+    
+    r, p = stats.pearsonr(x, y)
+    
+    if p < a:
+        
+        print("Reject the null hypothesis\n")
+
+        print(f"There is a significant linear correlation between {x.name} and {y.name}. {p}\n")
+        
+    else:
+        
+        print("Fail to reject the null hypothesis\n")
+        
+        print(f"There is no significant linear correlation between {x.name} and {y.name}. {p}\n")
+    
+    return r, p
+
+
+
+
+
+
+
+
+# __________________________________________
+
+def spearmanr(x, y, alpha=0.05):
+    
+    rho, p = stats.spearmanr(x, y)
+    
+    if p < alpha:
+        
+        print("Reject the null hypothesis\n")
+
+        print(f"There is a significant monotonic correlation between {x.name} and {y.name}. {p}\n")
+        
+    else:
+        
+        print("Fail to reject the null hypothesis")
+
+        print(f"There is no significant monotonic correlation between {x.name} and {y.name}. {p}\n")
+
+    return rho, p
