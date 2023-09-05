@@ -24,8 +24,8 @@ def plot_residuals(y, yhat):
     - y: Actual values
     - yhat: Predicted values
     """
-    residuals = y - yhat
-    plt.scatter(yhat, residuals, alpha=0.75, color='darkgray')
+    residuals = yhat - y
+    plt.scatter(y, residuals, alpha=0.75, color='darkgray') # should be y because i want to plot actuals
     plt.xlabel("Predicted Values")
     plt.ylabel("Residuals")
     plt.title("Model Residual Plot")
@@ -106,7 +106,7 @@ def better_than_baseline(y, yhat):
 
 
 # _________________________________________________________________________
-# example use: 
+
 # evaluate.plot_residuals(preds.y_actual, preds.y_hat)
 
 # print(f"\n-------------------------------------")
