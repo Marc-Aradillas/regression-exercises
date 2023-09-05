@@ -101,3 +101,86 @@ def better_than_baseline(y, yhat):
     _, _, RMSE_baseline = baseline_mean_errors(y)
     
     return RMSE < RMSE_baseline
+
+
+
+
+# _________________________________________________________________________
+# example use: 
+# evaluate.plot_residuals(preds.y_actual, preds.y_hat)
+
+# print(f"\n-------------------------------------")
+
+
+# SSE, ESS, TSS, MSE, RMSE = evaluate.regression_errors(preds.y_actual, preds.y_hat)
+
+# print(f"\nSSE: {SSE}\n")
+
+# print(f"ESS: {ESS}\n")
+
+# print(f"TSS: {TSS}\n")
+
+# print(f"MSE: {MSE}\n")
+
+# print(f"RMSE: {RMSE}\n")
+
+# print(f"\n-------------------------------------")
+
+# SSE_baseline, MSE_baseline, RMSE_baseline = evaluate.baseline_mean_errors(preds.y_actual)
+
+# print(f"Baseline SSE: {SSE_baseline}\n")
+
+# print(f"Baseline MSE: {MSE_baseline}\n")
+
+# print(f"Baseline RMSE: {RMSE_baseline}\n")
+
+# print(f"\n-------------------------------------")
+
+# print(f"\nIs the model better than the baseline? {evaluate.better_than_baseline(preds.y_actual, preds.y_hat)}")
+
+
+
+
+
+
+# -------------------------------------------------- Extra functions--------
+
+# may include
+
+def prepare_data(train, val, X_col, y_col):
+    # Split the data into subsets for train and validation
+    X_train = train[[X_col]]
+    y_train = train[y_col]
+
+    X_val = val[[X_col]]
+    y_val = val[y_col]
+
+    return X_train, y_train, X_val, y_val
+
+def create_baseline_predictions(y_train):
+    # Calculate the baseline prediction using median
+    y_baseline = y_train.median()
+    preds = pd.DataFrame({'y_actual': y_train, 'y_baseline': y_baseline})
+    return preds
+
+def train_linear_regression_model(X_train, y_train):
+    # Train a linear regression model
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+    return model
+
+def predict_with_model(model, X_train):
+    # Make predictions using the trained model
+    y_hat = model.predict(X_train)
+    return y_hat
+
+
+# train_data =  # Your training data
+# val_data =  # Your validation data
+# X_column = 'total_bill'  # Your feature column name
+# y_column = 'tip'  # Your target column name
+
+# X_train, y_train, X_val, y_val = prepare_data(train_data, val_data, X_column, y_column)
+# baseline_preds = create_baseline_predictions(y_train)
+# trained_model = train_linear_regression_model(X_train, y_train)
+# model_preds = predict_with_model(trained_model, X_train)
