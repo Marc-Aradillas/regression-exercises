@@ -77,56 +77,53 @@ plot_categorical_and_continuous_vars(your_dataframe, "continuous_column", "categ
 
 
 
-
-
-
-
-# __________________________________________STATS test functions _________________________________________
-
-# move this
-
-
-def pearsonr(x, y, a=0.05):
     
-    r, p = stats.pearsonr(x, y)
-    
-    if p < a:
+
+# __________________________________________ STATS test functions _________________________________________
+
+def evaluate_correlation(x, y, a=0.05, method="Pearson"):
+    """
+    Calculate and evaluate the correlation between two variables.
+
+    Parameters:
+    - x: First variable.
+    - y: Second variable.
+    - significance_level: The significance level for hypothesis testing.
+    - method: The correlation method to use ("Pearson" or "Spearman").
+
+    Returns:
+    - correlation_coefficient: The correlation coefficient.
+    - p_value: The p-value for the correlation test.
+    - conclusion: A string indicating whether to reject or fail to reject the null hypothesis.
+    """
+
+    if method == "Pearson":
         
-        print("Reject the null hypothesis\n")
-
-        print(f"There is a significant linear correlation between {x.name} and {y.name}. {p}\n")
+        correlation_coefficient, p_value = stats.pearsonr(x, y)
+        
+    elif method == "Spearman":
+        
+        correlation_coefficient, p_value = stats.spearmanr(x, y)
         
     else:
         
-        print("Fail to reject the null hypothesis\n")
+        raise ValueError("Invalid correlation method. Use 'Pearson' or 'Spearman'.")
+
+    
+    if p_value < a:
         
-        print(f"There is no significant linear correlation between {x.name} and {y.name}. {p}\n")
-    
-    return r, p
-
-
-
-
-
-
-
-
-# __________________________________________
-
-def spearmanr(x, y, alpha=0.05):
-    
-    rho, p = stats.spearmanr(x, y)
-    
-    if p < alpha:
-        
-        print("Reject the null hypothesis\n")
-
-        print(f"There is a significant monotonic correlation between {x.name} and {y.name}. {p}\n")
+        conclusion = (f"Reject the null hypothesis.\n\nThere is a significant linear correlation between {x.name} and {y.name}.")
         
     else:
         
-        print("Fail to reject the null hypothesis")
+        conclusion = (f"Fail to reject the null hypothesis.\n\n There is no significant linear correlation between {x.name} and {y.name}.")
 
-        print(f"There is no significant monotonic correlation between {x.name} and {y.name}. {p}\n")
+    return correlation_coefficient, p_value, conclusion
 
-    return rho, p
+
+
+
+# you don't hvae to round your coefficient, my preference.
+# Replace x and y positional arguements with your actual data in the function
+# correlation_coefficient, p_value, conclusion = explore.evaluate_correlation(train.tax_amount, train.area, method="Pearson")
+# print(f'{conclusion}\n\nCorrelation Coefficient: {correlation_coefficient:.4f}\n\np-value: {p_value}')
