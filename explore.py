@@ -121,8 +121,6 @@ def evaluate_correlation(x, y, a=0.05, method="Pearson"):
     return correlation_coefficient, p_value, conclusion
 
 
-
-
 # you don't hvae to round your coefficient, my preference.
 # Replace x and y positional arguements with your actual data in the function
 # correlation_coefficient, p_value, conclusion = explore.evaluate_correlation(train.tax_amount, train.area, method="Pearson")

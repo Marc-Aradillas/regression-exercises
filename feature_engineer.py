@@ -20,11 +20,12 @@ lm = LinearRegression()
 
 mms = MinMaxScaler()
 
-#example on how to fit_transform after dropping cols.
+# example on how to fit_transform after dropping cols.
 # to_scale = df.drop(columns=['tip']).columns
 
 # df[to_scale] = mms.fit_transform(df[to_scale])
 
+# I could create a function to do scaling and operate in a stepping method.
 
 
 # ________________________________ Select kBest function __________________________________
