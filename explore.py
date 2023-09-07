@@ -31,10 +31,6 @@ def plot_variable_pairs(df):
 
 
 
-
-
-
-
 # ------------------------------- CAT|CONT VARS FUNCTION --------------------------------------
 def plot_categorical_and_continuous_vars(df, continuous_var, categorical_var):
     """
