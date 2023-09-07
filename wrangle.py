@@ -122,11 +122,15 @@ def train_val_test(df, seed = 42):
 
 # ------------------------ XY SPLIT FUNCTION ----------------------
 
-
-def xy_split(df, col):
+# edit for zillow data 9/7/23 ; now its reusable
+def xysplit(df, col):
     X = df.drop(columns=[col])
     y = df[col]
     return X, y
+
+# examples:
+# X_train, y_train = wrangle.xysplit(train, 'Species_setosa')
+# X_val, y_val = wrangle.xysplit(val, 'Species_setosa')
 
 # ------------------------ SCALE DATA FUNCTION --------------------
 def scale_data(train, val, test, to_scale):
